@@ -3,7 +3,6 @@
     "authors": [
         {
             "name": "Fabrício J. Silva",
-            "email": "fabricio_fx@hotmail.com"
         }
     ],
     "require": {
@@ -13,7 +12,7 @@
     },
     "autoload": {
         "psr-4": {
-            "": "vendor\\hcodebr\\php-classes\\src"
+            "Jsilva\\": "vendor\\hcodebr\\php-classes\\src"
         }
     }
 }

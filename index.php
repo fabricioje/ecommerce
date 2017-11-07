@@ -8,7 +8,12 @@ $app->config('debug', true);
 
 $app->get('/', function() {
     
-	echo "OK";
+	//echo "OK";
+	$sql = new Jsilva\DB\Sql();
+	$results = $sql->select("select * from tb_users");
+
+	echo json_encode($results);
+
 
 });
 
