@@ -27,7 +27,7 @@ class Model{
 
 	}
 
-	public function setData($data = array()){
+	public function setData($data = array()){ //esse metódo cria os gets e sets automaticamente 
 
 
 		foreach ($data as $key => $value) {
