@@ -15,6 +15,19 @@ class Product extends Model{
 		return $sql->select("SELECT * FROM tb_products ORDER BY desproduct");
 	}
 
+	//metodo cirado para poder carregar as imagens usando o getValue
+	public static function checkList($list){
+
+		foreach ($list as &$row) {
+			
+			$p = new Product();
+			$p->setData($row);
+			$row = $p->getValues();
+		}
+
+		return $list;
+	}
+
 	public function save(){
 
 		$sql = new Sql();
@@ -70,7 +83,7 @@ class Product extends Model{
 			$this->getidproduct() . ".jpg"
 			)) {
 
-			$url = "/res/site/img/products/" . $this->getidproduct() . "jpg";
+			$url = "/res/site/img/products/" . $this->getidproduct() . ".jpg";
 		}else{
 
 			$url = "/res/site/img/product.jpg";
