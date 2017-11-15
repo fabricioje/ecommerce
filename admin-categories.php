@@ -3,6 +3,7 @@
 use \Jsilva\PageAdmin;
 use \Jsilva\Model\User;
 use \Jsilva\Model\Category;
+use \Jsilva\Model\Product;
 
 $app->get("/admin/categories", function(){
 
@@ -72,6 +73,8 @@ $app->get("/admin/categories/:idcategory", function($idcategory){
 
 $app->post("/admin/categories/:idcategory", function($idcategory){
 
+	User::verifyLogin(); //verifica se esta logado no sistema
+
 	$category = new Category();
 
 	$category->get((int)$idcategory);
@@ -85,19 +88,61 @@ $app->post("/admin/categories/:idcategory", function($idcategory){
 
 });
 
-$app->get("/categories/:idcategory", function($idcategory){
+
+
+$app->get("/admin/categories/:idcategory/products", function($idcategory){
+
+	User::verifyLogin(); //verifica se esta logado no sistema
 
 	$category = new Category();
 
 	$category->get((int)$idcategory);
 
-	$page = new Page();
+	$page = new PageAdmin();
 
-	$page->setTpl("category",[
+	$page->setTpl("categories-products",[
 		'category'=>$category->getValues(),
-		'products'=>[]
+		'productsRelated'=>$category->getProducts(),
+		'productsNotRelated'=>$category->getProducts(false)
 	]);
+});
 
+//adiciona produro na lista de categorias relacionadas
+$app->get("/admin/categories/:idcategory/products/:idproduct/add", function($idcategory, $idproduct){
+
+	User::verifyLogin(); //verifica se esta logado no sistema
+
+	$category = new Category();
+
+	$category->get((int)$idcategory);
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$category->addProduct($product);
+
+	header("Location: /admin/categories/".$idcategory."/products");
+	exit;
+});
+
+//remove produto na lista de categorias relacionadas
+$app->get("/admin/categories/:idcategory/products/:idproduct/remove", function($idcategory, $idproduct){
+
+	User::verifyLogin(); //verifica se esta logado no sistema
+
+	$category = new Category();
+
+	$category->get((int)$idcategory);
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$category->removeProduct($product);
+
+	header("Location: /admin/categories/".$idcategory."/products");
+	exit;
 });
 
 
