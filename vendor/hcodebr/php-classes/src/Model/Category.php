@@ -98,6 +98,7 @@ class Category extends Model{
 		}
 	}
 
+	//faz a busca dos de todos os produtos de uma categoria para fazer a paginação
 	public function getProductsPage($page = 1, $itemsPerPage = 3){
 
 		$start = ($page - 1) * $itemsPerPage;
@@ -115,6 +116,7 @@ class Category extends Model{
 				':idcategory'=>$this->getidcategory()
 			]);
 
+		//verifica a quantidade de produtos cadastrado em uma categoria
 		$resultTotal = $sql->select("SELECT FOUND_ROWS() AS nrtotal");
 
 		return[
