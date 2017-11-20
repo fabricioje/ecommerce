@@ -3,6 +3,7 @@
 use \Jsilva\Page;
 use \Jsilva\Model\Product;
 use \Jsilva\Model\Category;
+use \Jsilva\Model\Cart;
 
 $app->get('/', function() {
 
@@ -59,7 +60,14 @@ $app->get("/products/:desurl", function($desurl){
 	]);
 });
 
+$app->get("/cart", function(){
 
+	$cart = Cart::GetFromSession();
+
+	$page = new Page();
+
+	$page->setTpl("cart");
+})
 
 
  ?>

@@ -13,8 +13,41 @@ class User extends Model{
 	//constante usado para a chave de criptografica
 	const SECRET = "JsilvaPhp7Secret";
 
-	public static function login($login, $password){
+	public static function getFromSession(){
 
+		$user = new User();
+
+		if (isset($_SESSION[USER::SESSION]) && $_SESSION[User::SESSION]['iduser']> 0) {
+			$user->setData($_SESSION[User::SESSION]);
+		}
+
+		return $user;
+	}
+
+	public static function checkLogin($inadmin = true){
+
+		if (
+			!isset($_SESSION[User::SESSION]) //verifica se a sessão esta setada
+			||
+			!$_SESSION[User::SESSION] //verifica se a sessão não é vazia
+			||
+			!(int)$_SESSION[User::SESSION]["iduser"] > 0 //verifica se o id é maior que 0
+			) {
+			// não esta logado
+			return false;
+		}else{
+
+			if ( $inadmin === true && (bool)$_SESSION[User::SESSION]['inadmin'] === true) {
+				return true;
+			}else if ($inadmin === false) {
+				return true;
+			}else{
+				return false;
+			}
+		}
+	}
+
+	public static function login($login, $password){
 
 		$sql = new Sql();
 
@@ -46,14 +79,8 @@ class User extends Model{
 
 	public static function verifyLogin($inadmin = true){
 
-		if (!isset($_SESSION[User::SESSION]) //verifica se a sessão esta setada
-			||
-			!$_SESSION[User::SESSION] //verifica se a sessão não é vazia
-			||
-			!(int)$_SESSION[User::SESSION]["iduser"] > 0 //verifica se o id é maior que 0
-			||
-			(bool)$_SESSION[User::SESSION]["inadmin"] !== $inadmin //verificar se tem acesso a administração
-			) {
+		if (User::checkLogin($inadmin)) {
+
 				header("Location: /admin/login");
 				exit;
 		}
