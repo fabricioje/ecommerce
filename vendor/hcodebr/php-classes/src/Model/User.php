@@ -174,7 +174,7 @@ class User extends Model{
 		));
 	}
 
-	public static function getForgot($email){
+	public static function getForgot($email, $inadmin = true){
 
 		$sql = new Sql();
 
@@ -220,7 +220,13 @@ class User extends Model{
 				$code = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, User::SECRET, $dataRecorevy["idrecovery"], MCRYPT_MODE_ECB));
 
 				//endereço que vai receber o $code
-				$link = "http://www.ecommerce.com.br/admin/forgot/reset?code=$code";
+				if ($inadmin) {
+					
+					$link = "http://www.ecommerce.com.br/admin/forgot/reset?code=$code";
+				}else{
+
+					$link = "http://www.ecommerce.com.br/forgot/reset?code=$code";
+				}
 
 				//cria um novo email para envia-lo
 				$mailer = new Mailer($data["desemail"], $data["desperson"], "Redefinir a senha da Jsilva Store", "forgot",
@@ -300,7 +306,7 @@ class User extends Model{
 		$msg = (isset($_SESSION[User::ERROR]) && $_SESSION[User::ERROR]) ? $_SESSION[User::ERROR] : '';
 
 		User::clearError();
-		
+
 		return $msg;
 	}
 
