@@ -30,7 +30,7 @@ class Cart extends Model{
 
 				if (User::checkLogin(false)) {
 
-					$user = User::getFromSessionID();
+					$user = User::getFromSession();
 
 					$data['iduser'] = $user->getiduser();
 				}
