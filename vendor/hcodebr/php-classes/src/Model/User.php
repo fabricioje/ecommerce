@@ -351,11 +351,11 @@ class User extends Model {
             'cost' => 12
         ]);
     }
-    
-    public function getOrders(){
-        
+
+    public function getOrders() {
+
         $sql = new Sql();
-        
+
         $results = $sql->select("
 			SELECT * 
 			FROM tb_orders a 
@@ -368,7 +368,7 @@ class User extends Model {
 		", [
             ':iduser' => $this->getiduser()
         ]);
-        
+
         return $results;
     }
 
