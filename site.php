@@ -565,13 +565,7 @@ $app->get("/profile/orders", function() {
     User::verifyLogin(false);
 
     $user = User::getFromSession();
-    /*
-      echo '<pre>';
-      var_dump($user);
-      echo '</pre>';
-      exit;
-     * 
-     */
+
     $page = new Page();
 
     $page->setTpl("profile-orders", [
